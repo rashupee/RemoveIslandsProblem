@@ -1,0 +1,84 @@
+# Remove Islands
+
+# Implement in python
+
+# Given a 2D Matrix representing a black & white image, remove islands that are l,r and u,d isolated from a black
+# pixel at the boundary
+
+# Matrix is called M[i][j]
+#	i is row
+#	j is column
+
+
+
+# Useful function definition
+# 	connected(i,j) takes a coordinate and decides whether nearest neighbors offer potential connection to a black
+#	boundary pixel
+
+# returns Boolean value
+
+# We will restrict usage to i,j NOT on the boundary
+# This will not be good for small matrices len(M[0]) < 3, or len(M) < 3
+
+# M is global
+
+
+def connected(i,j):
+	return M[i-1][j]==1 or M[i][j-1]==1 or M[i+1][j]==1 or M[i][j+1]==1
+
+
+def boundaryElement(i,j):
+	# Returns true if i,j is an index of an edge element
+	return i == 0 or i == len(M) - 1 or j == 0 or j == len(M[0]) - 1
+
+# It's got to be a recursive process. Where do I start the process? At the middle? This might be the symmetric choice.
+#	connected is a symmetric function
+
+# If I start at the middle of M:
+#	If (i,j) is 1 and is not connected:
+#		make it a zero
+# 	else:
+#		move out to surrounding ring
+
+
+# Non-recursive process is to check every interior pixel.
+# Start process from left side, then from the right, then from the top, then from the bottom?
+
+
+# Let's just implement the simplest thing and see what happens:
+
+M = [[0,0,0,0,0],
+	 [0,0,1,1,0],
+	 [0,0,0,1,0],
+	 [0,1,1,1,0],
+	 [1,1,0,0,0],
+	 [0,0,0,0,0]]
+
+print("M is:")
+print(M)
+
+# Get array sizes:
+rowCount = len(M)
+columnCount = len(M[0])
+
+
+
+# Create record where we will record peninsulas of M:
+N = [ [0] * columnCount for _ in range(rowCount)]
+
+print("N before we copy M's boundary:")
+print(N)
+
+
+
+# Cause N's edges to be the same as M's:
+N[0] = M[0]
+N[rowCount - 1] = M[rowCount - 1]
+for row in range(rowCount):
+    N[row][0] = M[row][0]
+    N[row][columnCount-1] = M[row][columnCount-1]
+
+print("N after we copied over M's boundary:")
+print(N)
+
+
