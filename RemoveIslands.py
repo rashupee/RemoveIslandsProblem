@@ -54,8 +54,8 @@ M = [[0,0,0,0,0],
 	 [1,1,0,0,0],
 	 [0,0,0,0,0]]
 
-print("M is:")
-print(M)
+# print("M is:")
+# print(M)
 
 # Get array sizes:
 rowCount = len(M)
@@ -66,8 +66,8 @@ columnCount = len(M[0])
 # Create record where we will record peninsulas of M:
 N = [ [0] * columnCount for _ in range(rowCount)]
 
-print("N before we copy M's boundary:")
-print(N)
+# print("N before we copy M's boundary:")
+# print(N)
 
 
 
@@ -78,7 +78,40 @@ for row in range(rowCount):
     N[row][0] = M[row][0]
     N[row][columnCount-1] = M[row][columnCount-1]
 
-print("N after we copied over M's boundary:")
-print(N)
+# print("N after we copied over M's boundary:")
+# print(N)
+
+
+def sweepFrom(i,j):
+	# Go above
+	if not boundaryElement(i-1,j):
+		if N[i-1][j] != 1:
+			if M[i-1][j] == 1:
+				N[i-1][j] = 1
+				sweepFrom(i-1,j)
+	# Go down
+	if not boundaryElement(i+1,j):
+		if N[i+1][j] != 1:
+			if M[i+1][j] == 1:
+				N[i+1][j] = 1
+				sweepFrom(i+1,j)
+	# Go right
+	if not boundaryElement(i,j+1):
+		if N[i][j+1] != 1:
+			if M[i][j+1] == 1:
+				N[i][j+1] = 1
+				sweepFrom(i,j+1)
+	# Go left
+	if not boundaryElement(i,j-1):
+		if N[i][j-1] != 1:
+			if M[i][j-1] == 1:
+				N[i][j-1] = 1
+				sweepFrom(i,j-1)
+
+
+# def applySweepFromBoundary():
+	
+
+
 
 
