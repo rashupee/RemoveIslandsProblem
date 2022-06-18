@@ -31,6 +31,11 @@ def boundaryElement(i,j):
 	# Returns true if i,j is an index of an edge element
 	return i == 0 or i == len(M) - 1 or j == 0 or j == len(M[0]) - 1
 
+def displayArray(M):	
+	for row in M:
+		print(''.join(str(x) for x in row))
+
+
 # It's got to be a recursive process. Where do I start the process? At the middle? This might be the symmetric choice.
 #	connected is a symmetric function
 
@@ -47,15 +52,21 @@ def boundaryElement(i,j):
 
 # Let's just implement the simplest thing and see what happens:
 
-M = [[0,0,0,0,0],
+# M = [[0,0,0,0,0],
+# 	 [0,0,1,1,0],
+# 	 [0,0,0,1,0],
+# 	 [0,1,1,1,0],
+# 	 [1,1,0,0,0],
+# 	 [0,0,0,0,0]]
+
+
+M = [[0,0,1,0,0],
 	 [0,0,1,1,0],
 	 [0,0,0,1,0],
-	 [0,1,1,1,0],
+	 [0,1,1,0,0],
 	 [1,1,0,0,0],
 	 [0,0,0,0,0]]
 
-# print("M is:")
-# print(M)
 
 # Get array sizes:
 rowCount = len(M)
@@ -109,9 +120,50 @@ def sweepFrom(i,j):
 				sweepFrom(i,j-1)
 
 
-# def applySweepFromBoundary():
-	
+def applySweepFromBoundary():
+	# Corners don't matter
+	# From upper boundary
+	i = 0
+	j = 0
+	while j < columnCount - 1:
+		if N[i][j] == 1:
+			sweepFrom(i+1,j)
+		j += 1
+	# print("Upper boundary must have gone well")
+	# From lower boundary
+	i = rowCount - 1
+	j = 1
+	while j < columnCount - 1:
+		if N[i][j] == 1:	
+			sweepFrom(i-1,j)
+		j += 1
+
+	# From left boundary
+	i = 1
+	j = 0
+	while i < rowCount - 1:
+		if N[i][j] == 1:
+			sweepFrom(i,j+1)
+		i += 1
+
+	# From right boundary
+	i = 1
+	j = columnCount - 1
+	while i < rowCount - 1:
+		if N[i][j] == 1:
+			sweepFrom(i,j-1)
+		i += 1
 
 
+print("M is:")
+displayArray(M)
+
+print("N before sweeping is:")
+displayArray(N)
+
+applySweepFromBoundary()
+
+print("N after sweeping is:")
+displayArray(N)
 
 
